@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
 </head>
 <body>
-    <a th:href="@{/people}">Читатели</a>
-    <a th:href="@{/books}">Книги</a>
+    <div th:class="ui-menu" th:fragment="menu">
+        <a th:href="@{/people}">Читатели</a>
+        <a th:href="@{/books}">Книги</a>
+    </div>
 </body>
 </html>

@@ -5,16 +5,27 @@
     <title th:text="'Читатель - ' + ${person.getFullName()}">Title</title>
 </head>
 <body>
-    <div class="ui-menu">
-        <a th:href="@{/people}">Читатели</a>
-        <a th:href="@{/books}">Книги</a>
-    </div>
+    <div th:replace="main::menu" ></div>
 
-    <br/>
+    <hr/>
+
+    <h1>Читатель: </h1>
 
     <div th:text="${person.getId()}"></div>
     <div th:text="${person.getFullName()}"></div>
     <div th:text="${person.getYearOfBirth()}"></div>
+
+    <hr/>
+
+    <h2>Книги: </h2>
+
+    <div th:if="${!person.getBooks().isEmpty()}" th:each="book : ${person.getBooks()}">
+        <p th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"></p>
+    </div>
+
+    <div th:if="${person.getBooks().isEmpty()}" th:text="'Читатель пока не взял ни одной книги'"></div>
+
+    <hr/>
 
     <a th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="'Редактировать'">Редактировать</a>
     <form th:method="delete" th:action="@{/people/{id}(id=${person.getId()})}">

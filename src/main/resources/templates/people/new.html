@@ -5,12 +5,11 @@
     <title>Новый читатель</title>
 </head>
 <body>
-  <div class="ui-menu">
-    <a th:href="@{/people}">Читатели</a>
-    <a th:href="@{/books}">Книги</a>
-  </div>
+    <div th:replace="main::menu"></div>
 
-  <br/>
+  <hr/>
+
+  <h1>Создание читателя</h1>
 
   <form th:method="POST" th:action="@{/people}" th:object="${person}">
       <label for="full_name" th:text="'Введите ФИО: '">Введите ФИО: </label>

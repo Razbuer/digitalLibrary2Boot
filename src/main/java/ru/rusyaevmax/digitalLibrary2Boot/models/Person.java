@@ -6,14 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity(name = "name")
 @Table(name = "person")
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Person {
     @Id
     @Column(name = "id", nullable = false)
@@ -28,4 +29,9 @@ public class Person {
     @Max(value = 2022, message = "Год рождения должен быть меньше 2022")
     @Column(name = "year_of_birth", nullable = false)
     private int yearOfBirth;
+
+    @OneToMany(mappedBy = "owner")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Book> books;
 }

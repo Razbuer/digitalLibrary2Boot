@@ -5,18 +5,17 @@
     <title>Список всех читателей</title>
 </head>
 <body>
-    <div class="ui-menu">
-        <a th:href="@{/people}">Читатели</a>
-        <a th:href="@{/books}">Книги</a>
-    </div>
+    <div th:replace="main::menu"></div>
 
-    <br/>
+    <hr/>
+
+    <h1>Список читателей</h1>
 
     <div th:each="person : ${people}">
         <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getFullName()} + ', ' + ${person.getYearOfBirth()}">Ссылка на профиль</a>
     </div>
 
-    <br/>
+    <hr/>
 
     <a th:href="@{/people/new}" th:text="'Добавить читателя'">Добавить читателя</a>
 </body>
