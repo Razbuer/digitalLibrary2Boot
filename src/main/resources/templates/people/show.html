@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Читатель - ' + ${person.getFullName()}">Title</title>
+</head>
+<body>
+    <div class="ui-menu">
+        <a th:href="@{/people}">Читатели</a>
+        <a th:href="@{/books}">Книги</a>
+    </div>
+
+    <br/>
+
+    <div th:text="${person.getId()}"></div>
+    <div th:text="${person.getFullName()}"></div>
+    <div th:text="${person.getYearOfBirth()}"></div>
+
+    <a th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="'Редактировать'">Редактировать</a>
+    <form th:method="delete" th:action="@{/people/{id}(id=${person.getId()})}">
+        <input type="submit" th:value="'Удалить'">
+    </form>
+</body>
+</html>
