@@ -3,7 +3,9 @@ package ru.rusyaevmax.digitalLibrary2Boot.models;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "book")
@@ -18,15 +20,16 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Имя книги не должно быть пустым")
-    @Column(name = "name")
+    @NotEmpty(message = "Имя книги не должно быть пустым")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull(message = "Имя книги не должно быть пустым")
-    @Column(name = "author")
+    @NotEmpty(message = "Имя книги не должно быть пустым")
+    @Column(name = "author", nullable = false)
     private String author;
 
-    @NotNull(message = "Имя книги не должно быть пустым")
+    @Min(value = 0, message = "Год не может быть меньше нуля")
+    @Max(value = 2022, message = "Год не может быть больше 2022")
     @Column(name = "year", nullable = false)
     private int year;
 

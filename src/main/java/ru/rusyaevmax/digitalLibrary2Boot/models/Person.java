@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-@Entity(name = "name")
+@Entity
 @Table(name = "person")
 @Getter
 @Setter
