@@ -5,8 +5,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.rusyaevmax.digitalLibrary2Boot.models.Book;
 
-@Repository
-@Transactional(readOnly = true)
-public interface BooksRepository extends JpaRepository<Book, Long> {
+import java.util.List;
 
+@Repository
+public interface BooksRepository extends JpaRepository<Book, Long> {
+    List<Book> findBookByNameStartingWith(String text);
 }

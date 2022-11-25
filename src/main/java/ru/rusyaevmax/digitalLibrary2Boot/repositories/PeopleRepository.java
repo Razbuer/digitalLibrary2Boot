@@ -8,7 +8,6 @@ import ru.rusyaevmax.digitalLibrary2Boot.models.Person;
 import java.util.Optional;
 
 @Repository
-@Transactional(readOnly = true)
 public interface PeopleRepository extends JpaRepository<Person, Long> {
     Optional<Person> findByFullName(String fullName);
 }

@@ -11,12 +11,47 @@
 
     <h1>Список всех книг</h1>
 
-    <div th:each="book : ${books}">
-        <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"></a>
+    <div class="list_books">
+        <div th:each="book : ${books}">
+            <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"></a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <form th:method="GET"
+          th:action="@{/books?sort_by_year={sort_by_year}(sort_by_year=${sort_by_year})}">
+        <label th:for="books_per_page" th:text="'Количество книг на странице: '"></label>
+        <select name="books_per_page">
+            <option th:selected="${books_per_page} == 2" th:value="2">2</option>
+            <option th:selected="${books_per_page} == 3" th:value="3">3</option>
+            <option th:selected="${books_per_page} == 5" th:value="5">5</option>
+        </select>
+
+        <br/>
+
+        <label th:for="sort_by_year" th:text="'Сортировать по году: '"></label>
+        <input th:name="sort_by_year" th:type="radio" th:value="true" th:text="'Да'" th:checked="${sort_by_year} == true">
+        <input th:name="sort_by_year" th:type="radio" th:value="false" th:text="'Нет'" th:checked="${sort_by_year} == false">
+
+        <br/>
+
+        <input th:type="submit" th:value="'вывести'">
+    </form>
+
+
+    <hr/>
+
+    <div class="pagination">
+        <a th:href="@{/books?sort_by_year={sort_by_year}&page={page}&books_per_page={books_per_page}(sort_by_year=${sort_by_year}, page=${i - 1}, books_per_page=${books_per_page})}"
+           th:each="i : ${#numbers.sequence(1, books.getTotalPages())}">
+            <span th:text="${i}"></span>
+        </a>
     </div>
 
     <hr/>
 
     <a th:href="@{/books/new}" th:text="'Создать книгу'">Создать книгу</a>
+    <a th:href="@{/books/search}" th:text="'Поиск'"></a>
 </body>
 </html>

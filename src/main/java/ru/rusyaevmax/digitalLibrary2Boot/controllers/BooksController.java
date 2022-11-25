@@ -1,7 +1,7 @@
 package ru.rusyaevmax.digitalLibrary2Boot.controllers;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +12,7 @@ import ru.rusyaevmax.digitalLibrary2Boot.services.BooksService;
 import ru.rusyaevmax.digitalLibrary2Boot.services.PeopleService;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -27,8 +28,18 @@ public class BooksController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(
+            @RequestParam(value = "sort_by_year", required = false, defaultValue = "false") boolean sortByYear,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "books_per_page", required = false, defaultValue = "5") Integer booksPerPage,
+            Model model
+    ) {
+        Page<Book> books = booksService.findAll(sortByYear, page, booksPerPage);
+
+        model.addAttribute("books", books);
+        model.addAttribute("sort_by_year", sortByYear);
+        model.addAttribute("page", page);
+        model.addAttribute("books_per_page", booksPerPage);
 
         return "/books/index";
     }
@@ -85,34 +96,32 @@ public class BooksController {
 
     @PatchMapping("/{id}/release")
     public String release(@PathVariable("id") Long id) {
-        Optional<Book> book = booksService.findById(id);
-
-        if (book.isEmpty())
-            return "redirect:/errors/404";
-
-        booksService.release(book.get());
+        booksService.release(id);
 
         return "redirect:/books/{id}";
     }
 
     @PatchMapping("/{id}/assign")
     public String assign(@PathVariable("id") Long id, @ModelAttribute("person") Person person) {
-        Optional<Book> book = booksService.findById(id);
-
-        if (book.isEmpty())
-            return "redirect:/errors/404";
-
-        book.get().setOwner(person);
-
-        booksService.save(book.get());
+        booksService.assign(id, person);
 
         return "redirect:/books/{id}";
     }
 
     @DeleteMapping("{id}")
     public String delete(@PathVariable("id") Long id) {
-        booksService.deleteById(id);
+        booksService.delete(id);
 
         return "redirect:/books";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(value = "text", required = false, defaultValue = "") String text, Model model) {
+        model.addAttribute("text", text);
+
+        if (!text.isEmpty())
+            model.addAttribute("result", booksService.findBookByNameStartingWith(text));
+
+        return "/books/search";
     }
 }

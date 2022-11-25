@@ -20,7 +20,10 @@
     <h2>Книги: </h2>
 
     <div th:if="${!person.getBooks().isEmpty()}" th:each="book : ${person.getBooks()}">
-        <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}">книга</a>
+        <a th:href="@{/books/{id}(id=${book.getId()})}" th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"
+           th:style="${book.isOverdue()} ? 'color: red' : 'color: black'">
+            книга
+        </a>
     </div>
 
     <div th:if="${person.getBooks().isEmpty()}" th:text="'Читатель пока не взял ни одной книги'">Читатель пока не взял ни одной книги</div>

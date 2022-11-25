@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "book")
@@ -38,4 +39,10 @@ public class Book {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Person owner;
+
+    @Column(name = "taken_from")
+    private LocalDateTime takenFrom;
+
+    @Transient
+    private boolean overdue;
 }
